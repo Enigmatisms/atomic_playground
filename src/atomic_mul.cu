@@ -1,5 +1,7 @@
 #include "atomic_mul.cuh"
 
+namespace aop {
+
 __device__ int16_t atomicMul(int16_t* address, int16_t val) {
     uint32_t* ptr32 = reinterpret_cast<uint32_t*>(address);
     uint32_t shift = (reinterpret_cast<size_t>(address) % 4) * 8;
@@ -33,3 +35,5 @@ __device__ uint8_t atomicMul(uint8_t* address, uint8_t val) {
     
     return static_cast<uint8_t>((old32 & mask) >> shift);
 }
+
+}   // end namespace aop

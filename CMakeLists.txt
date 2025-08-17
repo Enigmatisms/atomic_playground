@@ -41,11 +41,12 @@ include_directories(
     ${CUDAToolkit_INCLUDE_DIRS}
 )
 
+aux_source_directory(./src ATOMIC_SRC)
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bindings)
 nanobind_add_module(atomic_ops_py 
     bindings/bind.cu
-    src/atomic_mul.cu
-    src/atomic_ops.cu
+    ${ATOMIC_SRC}
 )
 target_link_libraries(atomic_ops_py
     PRIVATE 
