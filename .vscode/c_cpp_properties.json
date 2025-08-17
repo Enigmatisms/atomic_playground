@@ -4,7 +4,8 @@
             "name": "Linux",        
             "includePath": [
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/external/**"
+                "${workspaceFolder}/external/nanobind/include",
+                "/usr/include/python3.10",
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
