@@ -3,6 +3,15 @@
 #include "atomic_minmax.cuh"
 #include "cuda_utils.cuh"
 
+static constexpr bool TEST_SAFE_ALIGNED_KERNELS = true;
+
+#define DEPLOY_ATOMIC(FuncName, ...)            \
+    if constexpr (TEST_SAFE_ALIGNED_KERNELS) {  \
+        FuncName##Safe(__VA_ARGS__);            \
+    } else {                                    \
+        FuncName(__VA_ARGS__);                  \
+    }
+
 namespace aop {
 
 template <typename T, ReduceOp Op>
@@ -29,22 +38,22 @@ __global__ void atomicReduceKernel(T* arr, T* result, size_t n) {
         T val = arr[i];
 
         if constexpr (Op == ReduceOp::MIN) {
-            atomicMin(&shared_val, val);
+            DEPLOY_ATOMIC(atomicMin, &shared_val, val)
         } else if constexpr (Op == ReduceOp::MAX) {
-            atomicMax(&shared_val, val);
+            DEPLOY_ATOMIC(atomicMax, &shared_val, val)
         } else if constexpr (Op == ReduceOp::MUL) {
-            atomicMul(&shared_val, val);
+            DEPLOY_ATOMIC(atomicMul, &shared_val, val)
         }
     }
     __syncthreads();
     
     if (threadIdx.x == 0) {
         if constexpr (Op == ReduceOp::MIN) {
-            atomicMin(result, shared_val);
+            DEPLOY_ATOMIC(atomicMin, result, shared_val)
         } else if constexpr (Op == ReduceOp::MAX) {
-            atomicMax(result, shared_val);
+            DEPLOY_ATOMIC(atomicMax, result, shared_val)
         } else if constexpr (Op == ReduceOp::MUL) {
-            atomicMul(result, shared_val);
+            DEPLOY_ATOMIC(atomicMul, result, shared_val)
         }
     }
 }

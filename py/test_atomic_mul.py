@@ -6,21 +6,26 @@ from basic_tester import BasicTester
 
 if __name__ == "__main__":
     tester = BasicTester(
-        shape=[127, 9], 
+        shape=[4, 4], 
         ranges=[1, 3],
         verbose = False
     )
-    tester.test(
-        atomic_func=aop.atomic_mul_u8,
-        host_func=aop.mul_u8,
-        dtype=np.uint8
-    )
 
-    tester.shape = [33, 63]
+    for i in range(30):
+        print(f"Test for uint8: {i + 1:2d}: ")
+        tester.test(
+            atomic_func=aop.atomic_mul_u8,
+            host_func=aop.mul_u8,
+            dtype=np.uint8
+        )
+
+    tester.shape = [8, 8]
     tester.ranges = [-3, 4]
 
-    tester.test(
-        atomic_func=aop.atomic_mul_i16,
-        host_func=aop.mul_i16,
-        dtype=np.int16
-    )
+    for i in range(30):
+        print(f"Test for int16: {i + 1:2d}: ")
+        tester.test(
+            atomic_func=aop.atomic_mul_i16,
+            host_func=aop.mul_i16,
+            dtype=np.int16
+        )

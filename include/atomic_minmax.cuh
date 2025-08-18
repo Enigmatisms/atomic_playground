@@ -11,4 +11,10 @@ __device__ int16_t atomicMax(int16_t* address, int16_t val);
 __device__ uint8_t atomicMin(uint8_t* address, uint8_t val);
 __device__ uint8_t atomicMax(uint8_t* address, uint8_t val);
 
+__device__ int16_t atomicMinSafe(int16_t* address, int16_t val);
+__device__ int16_t atomicMaxSafe(int16_t* address, int16_t val);
+
+__device__ uint8_t atomicMinSafe(uint8_t* address, uint8_t val);
+__device__ uint8_t atomicMaxSafe(uint8_t* address, uint8_t val);
+
 }   // end namespace aop

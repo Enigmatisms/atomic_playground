@@ -41,3 +41,19 @@ if __name__ == "__main__":
             host_func=aop.max_i16,
             dtype=np.int16
         )
+
+    np.random.seed(0)
+    tester.shape = [4, 4, 4]
+    for i in range(30):
+        print(f"Test for int16, new shape: {i + 1:2d}: ")
+
+        tester.test(
+            atomic_func=aop.atomic_min_i16,
+            host_func=aop.min_i16,
+            dtype=np.int16
+        )
+        tester.test(
+            atomic_func=aop.atomic_max_i16,
+            host_func=aop.max_i16,
+            dtype=np.int16
+        )

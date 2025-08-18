@@ -6,7 +6,9 @@
 namespace aop {
 
 __device__ int16_t atomicMul(int16_t* address, int16_t val);
-
 __device__ uint8_t atomicMul(uint8_t* address, uint8_t val);
+
+__device__ int16_t atomicMulSafe(int16_t* address, int16_t val);
+__device__ uint8_t atomicMulSafe(uint8_t* address, uint8_t val);
 
 }   // end namespace aop
